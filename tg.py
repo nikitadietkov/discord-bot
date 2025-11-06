@@ -5,6 +5,7 @@ from discord.ext import commands
 import io
 import mimetypes
 import re
+import os
 
 api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
@@ -132,4 +133,5 @@ async def main():
     )
 
 asyncio.run(main())
+
 
