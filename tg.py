@@ -59,6 +59,7 @@ def _make_filename(m, default_prefix="media"):
 
 @tg_client.on(events.NewMessage(chats=channel_username))
 async def handler(event):
+    print("📩 Новое сообщение:", event.message.text)
     message = event.message
 
     async with processing_lock:
@@ -133,5 +134,6 @@ async def main():
     )
 
 asyncio.run(main())
+
 
 
