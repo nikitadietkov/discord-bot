@@ -111,6 +111,7 @@ async def handler(event):
 
             if message.text and not message.media:
                 text = disable_link_previews(message.text)
+                print("sending", message.text)
                 await send_files_to_discord([], caption=text)
                 return
 
@@ -118,12 +119,11 @@ async def handler(event):
                 file_bytes = await message.download_media(bytes)
                 filename = _make_filename(message)
                 discord_file = discord.File(io.BytesIO(file_bytes), filename=filename)
-
+            
                 caption = message.text or ""
                 caption = disable_link_previews(caption)
-                print("2Отправляю в Discord:", text)
+                print("2Отправляю в Discord:", caption)
                 await send_files_to_discord([discord_file], caption=caption)
-                print("2Отправляю в Discord:", text)
 
 @bot.event
 async def on_ready():
@@ -139,6 +139,7 @@ async def main():
     )
 
 asyncio.run(main())
+
 
 
 
