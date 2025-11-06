@@ -126,6 +126,9 @@ async def handler(event):
 @bot.event
 async def on_ready():
     print(f"✅ Discord бот вошёл как {bot.user}")
+    channel = bot.get_channel(DISCORD_CHANNEL_ID)
+    if channel:
+        await channel.send("✅ Бот успешно запущен и подключен к Telegram!")
 
 async def main():
     await asyncio.gather(
@@ -134,6 +137,7 @@ async def main():
     )
 
 asyncio.run(main())
+
 
 
 
