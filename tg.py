@@ -6,13 +6,12 @@ import io
 import mimetypes
 import re
 
-api_id = 29093027
-api_hash = 'e9a91f1cddbea153bfb7015ef6918ca8'
-channel_username = 'ddnepr_vse'
-DISCORD_TOKEN = 'MTQzNjA4NTgwOTI2MTMxNDA4OA.GuSTez.RfmOx8gIoy0N-KcgGXHuhbK9wLtRTnQJk8C7kE'
-DISCORD_CHANNEL_ID = 1436106038708277268
-
-TRIGGER_WORDS = ["дтек", "дніпропетровщина", "графік", "графіки", "світло", "ремонт", "відключення"]
+api_id = os.getenv("API_ID")
+api_hash = os.getenv("API_HASH")
+channel_username = os.getenv("CHANNEL_USERNAME")
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+DISCORD_CHANNEL_ID = os.getenv("DISCORD_CHANNEL_ID")
+TRIGGER_WORDS = ["дтек", "дніпропетровщина", "графік", "графіки", "світло", "відключення"]
 
 tg_client = TelegramClient('session_name', api_id, api_hash)
 
@@ -133,3 +132,4 @@ async def main():
     )
 
 asyncio.run(main())
+
