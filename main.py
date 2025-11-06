@@ -121,14 +121,16 @@ async def handler(event):
 
                 caption = message.text or ""
                 caption = disable_link_previews(caption)
+                print("2Отправляю в Discord:", text)
                 await send_files_to_discord([discord_file], caption=caption)
+                print("2Отправляю в Discord:", text)
 
 @bot.event
 async def on_ready():
     print(f"✅ Discord бот вошёл как {bot.user}")
-    channel = bot.get_channel(DISCORD_CHANNEL_ID)
-    if channel:
-        await channel.send("✅ Бот успешно запущен и подключен к Telegram!")
+    channel = discord_client.get_channel(DISCORD_CHANNEL_ID)
+    if channel is None:
+        print("❌ Не найден канал с таким ID")
 
 async def main():
     await asyncio.gather(
@@ -137,6 +139,7 @@ async def main():
     )
 
 asyncio.run(main())
+
 
 
 
