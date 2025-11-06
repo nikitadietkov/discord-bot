@@ -11,7 +11,7 @@ api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
 channel_username = os.getenv("CHANNEL_USERNAME")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-DISCORD_CHANNEL_ID = os.getenv("DISCORD_CHANNEL_ID")
+DISCORD_CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))
 TRIGGER_WORDS = ["дтек", "дніпропетровщина", "графік", "графіки", "світло", "відключення"]
 
 tg_client = TelegramClient('session_name', api_id, api_hash)
@@ -128,7 +128,7 @@ async def handler(event):
 @bot.event
 async def on_ready():
     print(f"✅ Discord бот вошёл как {bot.user}")
-    channel = discord_client.get_channel(DISCORD_CHANNEL_ID)
+    channel = bot.get_channel(int(DISCORD_CHANNEL_ID))
     if channel is None:
         print("❌ Не найден канал с таким ID")
 
@@ -139,6 +139,7 @@ async def main():
     )
 
 asyncio.run(main())
+
 
 
 
