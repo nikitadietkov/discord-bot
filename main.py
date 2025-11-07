@@ -71,37 +71,42 @@ async def handler(event):
             if gid in processed_group_ids:
                 processed_message_ids.add(message.id)
                 return
-
+        
             recent = await tg_client.get_messages(channel_username, limit=50)
             group_msgs = [m for m in reversed(recent) if getattr(m, 'grouped_id', None) == gid]
-
+        
             if not group_msgs:
                 group_msgs = [message]
-
+        
             processed_group_ids.add(gid)
             for m in group_msgs:
                 processed_message_ids.add(m.id)
-
+        
             discord_files = []
             caption = None
+            has_trigger = False
+        
+            # 🔹 Проверяем все сообщения группы на тригерные слова
             for m in group_msgs:
-                if not caption and (getattr(m, "text", None) or getattr(m, "message", None)):
-                    caption = m.text or m.message
-                    caption = disable_link_previews(caption)
-
-            if not has_trigger_word(caption):
+                text = m.text or m.message or ""
+                if has_trigger_word(text):
+                    has_trigger = True
+                if not caption and text:
+                    caption = text
+        
+            if not has_trigger:
                 return
-
+        
+            if caption:
+                caption = disable_link_previews(caption)
+        
             for m in group_msgs:
                 if m.media:
                     file_bytes = await m.download_media(bytes)
                     filename = _make_filename(m)
                     discord_files.append(discord.File(io.BytesIO(file_bytes), filename=filename))
-
-            if discord_files:
-                await send_files_to_discord(discord_files, caption=caption)
-            elif caption:
-                await send_files_to_discord([], caption=caption)
+        
+            await send_files_to_discord(discord_files, caption=caption)
 
         else:
             processed_message_ids.add(message.id)
@@ -139,6 +144,7 @@ async def main():
     )
 
 asyncio.run(main())
+
 
 
 
